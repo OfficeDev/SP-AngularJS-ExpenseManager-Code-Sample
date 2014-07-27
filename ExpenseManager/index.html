@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html data-ng-app="expenseApp">
+<head>
+    <title>Expense Manager</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="Content/bootstrap.css" rel="stylesheet" />
+    <link href="Content/animations.css" rel="stylesheet" />
+    <link href="Content/styles.css" rel="stylesheet" />
+</head>
+<body data-ng-cloak="">
+
+    <header class="navbar navbar-inner navbar-fixed-top" data-ng-controller="NavbarController">
+        <nav class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-ng-click="isCollapsed = !isCollapsed">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#/">
+                    <img src="Content/Images/people.png" alt="logo">
+                    <span class="appTitle">{{ appTitle }}</span>
+                </a>
+            </div>
+            <div class="nav-container" data-collapse="isCollapsed">
+
+                <ul class="nav navbar-nav nav-pills navBarPadding"
+                    data-menu-highlighter data-highlight-class-name="active">
+                    <li><a href="#/employees">Employees</a></li>
+                    <li><a href="#/expenses">Expenses</a></li>
+                    <li><a href="#/about">About</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div class="slide-animation-container">
+        <div data-ng-view="" id="ng-view" class="slide-animation"></div>
+    </div>
+
+    <div id="footer">
+        <div class="navbar navbar-fixed-bottom">
+            <div class="navbar-inner footer">
+                <div class="container">
+                    <footer>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <!-- Created by <a href="http://twitter.com/DanWahlin" target="_blank">Dan Wahlin</a> and <a href="http://twitter.com/StaticVoidMain" target="_blank">Spike Xavier</a> -->
+                            </div>
+                        </div>
+                    </footer>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div data-wc-overlay="" data-wc-overlay-delay="300">
+        <br /><img src="/Content/images/spinner.gif" />&nbsp;&nbsp;Loading
+    </div>
+
+    <!-- 3rd party libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.11/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.11/angular-route.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.11/angular-animate.min.js"></script>
+    <script src="/Scripts/angular-ui-bootstrap.js"></script>
+    <script src="/Scripts/tweenMax.min.js"></script>
+
+    <!-- Custom scripts -->
+    <script src="/app/wc.directives/directives/wcOverlay.js"></script>
+    <script src="/app/wc.directives/directives/menuHighlighter.js"></script>
+    <script src="/app/expenseApp/app.js"></script>
+    <script src="/app/expenseApp/animations/listAnimations.js"></script>
+    <script src="/app/expenseApp/directives/wcUnique.js"></script>
+    <script src="/app/expenseApp/filters/nameCityStateFilter.js"></script>
+    <script src="/app/expenseApp/filters/nameExpenseFilter.js"></script>
+    <script src="/app/expenseApp/services/config.js"></script>
+    <script src="/app/expenseApp/services/httpInterceptors.js"></script>
+    <script src="/app/expenseApp/services/employeesSharePointService.js"></script>
+    <script src="/app/expenseApp/services/dataService.js"></script>
+    <script src="/app/expenseApp/services/modalService.js"></script>
+    <script src="/app/expenseApp/controllers/employees/employeeEditController.js"></script>
+    <script src="/app/expenseApp/controllers/employees/employeeExpensesController.js"></script>
+    <script src="/app/expenseApp/controllers/employees/employeesController.js"></script>
+    <script src="/app/expenseApp/controllers/expenses/expenseChildController.js"></script>
+    <script src="/app/expenseApp/controllers/expenses/expensesController.js"></script>
+    <script src="/app/expenseApp/controllers/aboutController.js"></script>
+    <script src="/app/expenseApp/controllers/navbarController.js"></script>
+
+</body>
+</html>
+
+

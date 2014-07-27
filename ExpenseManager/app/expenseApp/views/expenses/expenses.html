@@ -1,0 +1,64 @@
+﻿<div class="expenses view">
+    <div class="container">
+        <header>
+            <h3><span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;All Employee Expenses</h3>
+        </header>
+        <br />
+        <div class="employeeEdit">
+            <form class="form-horizontal" role="form">
+                <div class="form-group">
+                    <label class="navbarText col-sm-3">Filter by Employee/Expense:</label>
+                    <div class="col-sm-9">
+                    <input type="text" class="form-control novalidate" 
+                            data-ng-model="searchText" 
+                            data-ng-change="searchTextChanged();" />
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="container">
+            <div class="row show-hide-animation" data-ng-show="employees.length > 0">
+                <div class="col-md-12">
+                    <div data-pagination
+                         data-on-select-page="pageChanged(page)"
+                         data-total-items="totalRecords"
+                         data-items-per-page="pageSize"
+                         data-page="currentPage"
+                         data-boundary-links="true"
+                         class="pagination-sm"></div>
+                    <div>Showing {{ numRecordsDisplaying }} of {{ totalRecords}} total employees</div>
+                    <div data-ng-show="searchText.length > 0">Filtering by "{{ searchText }}"</div>
+                    <br />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 repeat-animation" data-ng-repeat="employee in pagedEmployees | orderBy:'lastName'">
+                    <div>
+                        <h4><a href="#/employeeExpenses/{{employee.id}}">{{ employee.firstName + ' ' + employee.lastName }}</a></h4>
+                    </div>
+                    <div data-ng-include="'/app/expenseApp/views/expenses/expensesTable.html'" />
+                </div>
+            </div>
+            <div class="row show-hide-animation" data-ng-show="pagedEmployees.length == 0">
+                <div class="col-md-12">
+                    <h4>No employees found</h4>
+                </div>
+            </div>
+            <div class="row show-hide-animation" data-ng-show="employees.length > 0" style="padding-left: 15px;">
+                <div class="col-md-12">
+                    <div data-pagination
+                         data-on-select-page="pageChanged(page)"
+                         data-total-items="totalRecords"
+                         data-items-per-page="pageSize"
+                         data-page="currentPage"
+                         data-boundary-links="true"
+                         class="pagination-sm"></div>
+                    <h5>Showing {{ numRecordsDisplaying }} of {{ totalRecords}} total employees</h5>
+                    <span data-ng-show="searchText.length > 0">Filtering by "{{ searchText }}"</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br /><br /><br />
+</div>
+

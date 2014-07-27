@@ -1,0 +1,21 @@
+﻿<div class="expenses view">
+    <div class="container">
+        <header>
+            <h3><span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;Employee Expenses</h3>
+        </header>
+        <div class="container">
+            <div class="row">
+                <div class="span12">
+                    <div>
+                        <h4>Orders for <a href="#/employeeEdit/{{employee.id}}">{{ employee.firstName + ' ' + employee.lastName }} <i class="icon-edit editIcon"></i></a></h4>
+                        {{employee.address}}
+                        <br />
+                        {{employee.city}}, {{employee.state}}
+                        <br /><br />
+                    </div>
+                    <div data-ng-include="'/app/expenseApp/views/expenses/expensesTable.html'" />
+                </div>                
+            </div>
+        </div>
+    </div>
+</div>

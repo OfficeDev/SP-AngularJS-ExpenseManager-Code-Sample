@@ -1,0 +1,31 @@
+﻿<h2>@ViewBag.Title</h2>
+<br />
+<span id="title"></span>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        var url = "https://dpe1.sharepoint.com/sites/expenses/_api/web/lists/getByTitle('Employees')/items?$select=FirstName,LastName,Address,City,State,Zip,Email,Gender";
+        $.get("/Handlers/WebProxy.ashx?url=" + encodeURIComponent(url))
+        //$.get("/api/webproxy/json?url=" + encodeURIComponent(url),
+         .done(function (data) {
+             var html = '';
+             for (var i = 0; i < data.d.results.length; i++) {
+                 var person = data.d.results[i];
+                 html += person.FirstName + " " + person.LastName + "<br />" +
+                            person.Address + "<br />" + person.City + ", " +
+                            person.State + " " + person.Zip + "<br />" +
+                            person.Gender + " " + person.Email + "<br /><br />";
+             }
+             $('#title').html(html);
+         })
+         .fail(function (jqXHR, textStatus, errorThrown) {
+             if (jqXHR.status === 302) {
+                 alert('Token expired. Redirecting to refresh the token...');
+                 var href = location.href;
+                 location.href = '/home/refreshtoken?url=' + href;
+             }
+         });
+    });
+</script>
+

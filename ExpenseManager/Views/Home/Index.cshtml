@@ -1,0 +1,59 @@
+﻿<style type="text/css">
+    html { 
+      background: url(content/images/expenseBackground.jpg) no-repeat center center fixed; 
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
+    }
+
+    html {
+        padding: 0px;
+        margin: 0px;
+    }
+
+    body {
+        background-color: transparent;
+        padding: 0px;
+    }
+
+    #vwrapper { 
+        transition-property: padding;
+        transition-duration: 1s;
+        transition-timing-function: ease-in-out;
+    }
+
+    .whiteBar {
+        background-color: white;
+        height:100px;
+        opacity: .9;
+    }
+
+    .btn-lg {
+        width:200px;
+        height:50px;
+        top:-73px;
+        position:relative;
+        padding: 14px 16px;
+    }
+
+    .btn-lg:hover {
+        text-decoration: none;
+    }
+</style>
+
+<div id="vwrapper">
+    <div class="whiteBar"></div>
+    <a href="/home/login" class="btn-lg btn-primary center-block text-center">Login</a>
+</div>
+<script>
+    var d = document;
+    var docHeight = Math.max(
+        d.body.scrollHeight, d.documentElement.scrollHeight,
+        d.body.offsetHeight, d.documentElement.offsetHeight,
+        d.body.clientHeight, d.documentElement.clientHeight
+    );
+    var vwrapper = document.getElementById('vwrapper');
+    vwrapper.style.padding = Math.floor(docHeight / 2 - 50) + 'px 0px';
+
+</script>
