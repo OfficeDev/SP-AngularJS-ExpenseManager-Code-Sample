@@ -1,9 +1,7 @@
-﻿Expense Manager with AngularJS
+﻿Expense Manager with AngularJS, SharePoint/Office 365 and Windows Azure Active Directory (WAAD)
 ===============
 
 If you’re new to AngularJS check out the [AngularJS in 60-ish Minutes](http://weblogs.asp.net/dwahlin/video-tutorial-angularjs-fundamentals-in-60-ish-minutes) video tutorial or download the [free eBook](http://weblogs.asp.net/dwahlin/angularjs-in-60-ish-minutes-the-ebook). Also check out [The AngularJS Magazine](http://flip.it/bdyUX) for up-to-date information on using AngularJS to build Single Page Applications (SPAs).
-
-![Expense Manager App](https://raw2.github.com/DanWahlin/CustomerManagerStandard/master/CustomerManager/Content/images/customerApp.png)
 
 This application is a stand-alone AngularJS application that performs CRUD operations against SharePoint/Office 365. Authentication relies on Windows Azure Active Directory (WAAD).
 This application demonstrates:
