@@ -24,5 +24,5 @@ To get the application running you'll need to do the following:
 * Open web.config and update the SharePointResourceId and SharePointServiceRoot values to your Office 365/SharePoint Tenant value. Example: https://your_tenant.sharepoint.com.
 * Open index.html and update the value assigned to expenseManager.baseSPUrl (located at the bottom of the page in the <script> tag) to your Office 365/SharePoint Tenant value.
 * Create a new directory in Windows Azure Active Directory (WAAD) if you don't already have one and add a user into it.
-* Add a new application into it named ExpenseManager.office365app (----  more details need to be added here ----)
+* Add a new application into it named ExpenseManager.office365app ( more details need to be added here )
 * In web.config update the ida:ClientID and ida:Password values with the appropriate values from your WAAD ExpenseManager.office365app application.
