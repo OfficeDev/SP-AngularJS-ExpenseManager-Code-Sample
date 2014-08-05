@@ -3,7 +3,7 @@
     var employeesFactory = function ($http, $q, $window, $location, $timeout) {
         var serviceBase = '/Handlers/WebProxy.ashx?url=',
             refreshUrlBase = '/home/refreshtoken?returnUrl=',
-            baseSPUrl = 'https://dpe1.sharepoint.com/sites/expenses/_api/',
+            baseSPUrl = expenseManager.baseSPUrl,
             baseSPListsUrl = baseSPUrl + 'web/lists/';
             factory = {
                 itemCount: 0,

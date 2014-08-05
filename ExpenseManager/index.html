@@ -87,6 +87,13 @@
     <script src="/app/expenseApp/controllers/expenses/expensesController.js"></script>
     <script src="/app/expenseApp/controllers/aboutController.js"></script>
     <script src="/app/expenseApp/controllers/navbarController.js"></script>
+    <script>
+        var expenseManager = expenseManager || {};
+        //Update with the domain for your SharePoint site
+        //The expenses.wsp template (root of the codebase) must be loaded into SharePoint
+        //to create the "expenses" site
+        expenseManager.baseSPUrl = 'https://YOUR_TENANT.sharepoint.com/sites/expenses/_api/';
+    </script>
 
 </body>
 </html>

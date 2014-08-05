@@ -5,7 +5,8 @@
 <script>
     $(document).ready(function () {
 
-        var url = "https://dpe1.sharepoint.com/sites/expenses/_api/web/lists/getByTitle('Employees')/items?$select=FirstName,LastName,Address,City,State,Zip,Email,Gender";
+        //You'll need to update YOURSITE below to run this view -->
+        var url = "https://YOURSITE.sharepoint.com/sites/expenses/_api/web/lists/getByTitle('Employees')/items?$select=FirstName,LastName,Address,City,State,Zip,Email,Gender";
         $.get("/Handlers/WebProxy.ashx?url=" + encodeURIComponent(url))
         //$.get("/api/webproxy/json?url=" + encodeURIComponent(url),
          .done(function (data) {
