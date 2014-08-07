@@ -22,4 +22,4 @@ This application demonstrates:
 To get the application running you'll need to do the following:
 
 * Upload the ExpensesTrackerSiteTemplate.wsp template into an existing Office 365/SharePoint site collection solution folder. Then create a Site instance within that site collection based on that site template called "Expense Tracker Site Template". This will create an Expenses site with 3 lists for employees, expenses, and states.
-* Follow the steps in the [readme](/ExpenseManager/ReadMe.md) to configure the Azure AD application and asp.net web application.
+* Follow the steps in the [readme](ExpenseManager/ReadMe.md) to configure the Azure AD application and asp.net web application.
