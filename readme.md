@@ -1,4 +1,4 @@
-﻿Expense Manager with AngularJS, SharePoint/Office 365 and Windows Azure Active Directory (WAAD)
+Expense Manager with AngularJS, SharePoint/Office 365 and Windows Azure Active Directory (WAAD)
 ===============
 
 If you’re new to AngularJS check out the [AngularJS in 60-ish Minutes](http://weblogs.asp.net/dwahlin/video-tutorial-angularjs-fundamentals-in-60-ish-minutes) video tutorial or download the [free eBook](http://weblogs.asp.net/dwahlin/angularjs-in-60-ish-minutes-the-ebook). Also check out [The AngularJS Magazine](http://flip.it/bdyUX) for up-to-date information on using AngularJS to build Single Page Applications (SPAs).
@@ -18,11 +18,8 @@ This application demonstrates:
 * A custom directive that handles highlighting menu items automatically based upon the path navigated to by the user
 * Form validation using AngularJS
 
+#Getting started
 To get the application running you'll need to do the following:
 
-* Load the Expenses.wsp template into an existing Office 365/SharePoint site. This will create an Expenses site with 3 lists for employees, expenses, and states.
-* Open web.config and update the SharePointResourceId and SharePointServiceRoot values to your Office 365/SharePoint Tenant value. Example: https://your_tenant.sharepoint.com.
-* Open index.html and update the value assigned to expenseManager.baseSPUrl (located at the bottom of the page in the script tag) to your Office 365/SharePoint Tenant value.
-* Create a new directory in Windows Azure Active Directory (WAAD) if you don't already have one and add a user into it.
-* Add a new application into it named ExpenseManager.office365app ( more details need to be added here )
-* In web.config update the ida:ClientID and ida:Password values with the appropriate values from your WAAD ExpenseManager.office365app application.
+* Upload the ExpensesTrackerSiteTemplate.wsp template into an existing Office 365/SharePoint site collection solution folder. Then create a Site instance within that site collection based on that site template called "Expense Tracker Site Template". This will create an Expenses site with 3 lists for employees, expenses, and states.
+* Follow the steps in the [readme](/ExpenseManager/ReadMe.md) to configure the Azure AD application and asp.net web application.
