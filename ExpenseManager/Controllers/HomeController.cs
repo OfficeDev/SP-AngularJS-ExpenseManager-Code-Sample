@@ -1,4 +1,5 @@
 ﻿using ExpenseManager.SharePointHelpers;
+using Microsoft.Office365.OAuth;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,12 +20,17 @@ namespace ExpenseManager.Controllers
 
         public async Task<ActionResult> Login()
         {
-            var authInfo = await SharePointAuth.GetAuthInfo();
-            if (authInfo != null)
+            try
             {
+                var client = await SharePointAuth.EnsureClientCreated();
                 Response.Redirect("/index.html");
+                return View();
             }
-            return View();
+            catch (RedirectRequiredException ex)
+            {
+                return Redirect(ex.RedirectUri.ToString());
+            }
+
         }
 
         public async Task<ActionResult> Title()
@@ -35,7 +41,7 @@ namespace ExpenseManager.Controllers
 
         public async Task<ActionResult> RefreshToken(string returnUrl)
         {
-            await SharePointAuth.GetAuthInfo();
+            await SharePointAuth.EnsureClientCreated();
             Response.Redirect(Server.UrlDecode(returnUrl));
             return View();
         }

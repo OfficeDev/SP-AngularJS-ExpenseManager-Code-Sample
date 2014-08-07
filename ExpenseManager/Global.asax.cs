@@ -19,13 +19,6 @@ namespace ExpenseManager
 {
     public class Global : System.Web.HttpApplication
     {
-
-        //public Global()
-        //{
-        //    var wrapper = new EventHandlerTaskAsyncHelper(AuthenticateAsync);
-        //    this.AddOnAuthenticateRequestAsync(wrapper.BeginEventHandler, wrapper.EndEventHandler);
-        //}
-
         protected void Application_Start(object sender, EventArgs e)
         {
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
@@ -33,21 +26,6 @@ namespace ExpenseManager
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
-
-
-        //private async Task AuthenticateAsync(object sender, EventArgs e)
-        //{
-        //    var app = (HttpApplication)sender;
-        //    var context = app.Context;
-
-        //    var authInfo = await SharePointApi.GetAuthInfo();
-        //    var token = await authInfo.GetAccessToken();
-
-        //    var userName = authInfo.IdToken.UPN;
-        //    System.Threading.Thread.CurrentPrincipal =
-        //        new GenericPrincipal(new GenericIdentity(userName), null);
-        //    HttpContext.Current.Items.Add("Token", token);
-        //}
 
         protected void Session_Start(object sender, EventArgs e)
         {
