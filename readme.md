@@ -50,12 +50,12 @@ To get the application running you'll need to do the following:
 9. Scroll to the "keys" section and select **1 year** from the dropdown.
 10. Note the Client ID and key value that are displayed. You'll need to update the application's web.config file with these values in a moment.
 
-    ![Active Directory](ExpenseManager/Content/images/readmeImages/ClientId.png)
+    ![Active Directory](ExpenseManager/Content/images/readmeImages/ClientID.png)
 
 12. Scroll down to the "permissions to other applications" section of the screen.
 13. In the first dropdown in the Windows Azure Active Directory column select Office 365 SharePoint Online and make the selections shown next:
 
-    ![Active Directory](ExpenseManager/Content/images/readmeImages/permissions.png)
+    ![Active Directory](ExpenseManager/Content/images/readmeImages/Permissions.png)
 
 10. Click the Save icon at the bottom of the interface.
 13. Open the Expense Manager's .sln file in Visual Studio 2013 or higher (click Download Zip in Github and extract the project if you haven't already)
