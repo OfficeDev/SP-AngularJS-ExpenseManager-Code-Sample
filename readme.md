@@ -1,13 +1,13 @@
-Expense Manager with AngularJS, SharePoint/Office 365 and Windows Azure Active Directory (WAAD)
+Expense Manager with AngularJS, SharePoint/Office 365 and Microsoft Azure Active Directory
 ===============
 
 If you’re new to AngularJS check out the [AngularJS in 60-ish Minutes](http://weblogs.asp.net/dwahlin/video-tutorial-angularjs-fundamentals-in-60-ish-minutes) video tutorial or download the [free eBook](http://weblogs.asp.net/dwahlin/angularjs-in-60-ish-minutes-the-ebook). Also check out [The AngularJS Magazine](http://flip.it/bdyUX) for up-to-date information on using AngularJS to build Single Page Applications (SPAs).
 
-This application is a stand-alone AngularJS application that performs CRUD operations against SharePoint/Office 365. Authentication relies on Windows Azure Active Directory (WAAD).
+This application is a stand-alone AngularJS application that performs CRUD operations against SharePoint/Office 365. Authentication relies on Microsoft Azure Active Directory.
 This application demonstrates:
 
 * Consuming data provided by SharePoint/Office 365 RESTful APIs
-* Authentication against Windows Azure Active Directory (WAAD)
+* Authentication against Microsoft Azure Active Directory 
 * A custom "middle-man" proxy that allows cross-domain calls to be made to SharePoint/Office 365
 * A complete application with read-only and editable data
 * Using AngularJS with $http in a factory to access a backend RESTful service
@@ -57,7 +57,7 @@ To get the application running you'll need to do the following:
     ![Active Directory](ExpenseManager/Content/images/readmeImages/ClientID.png)
 
 1. Scroll down to the "permissions to other applications" section of the screen.
-1. In the first dropdown in the Windows Azure Active Directory column select Office 365 SharePoint Online and make the selections shown next:
+1. In the first dropdown in the Microsoft Azure Active Directory column select Office 365 SharePoint Online and make the selections shown next:
 
     ![Active Directory](ExpenseManager/Content/images/readmeImages/Permissions.png)
 
