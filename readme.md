@@ -3,11 +3,18 @@ Expense Manager with AngularJS, SharePoint/Office 365 and Microsoft Azure Active
 
 If you’re new to AngularJS check out the [AngularJS in 60-ish Minutes](http://weblogs.asp.net/dwahlin/video-tutorial-angularjs-fundamentals-in-60-ish-minutes) video tutorial or download the [free eBook](http://weblogs.asp.net/dwahlin/angularjs-in-60-ish-minutes-the-ebook). Also check out [The AngularJS Magazine](http://flip.it/bdyUX) for up-to-date information on using AngularJS to build Single Page Applications (SPAs).
 
-This application is a stand-alone AngularJS application that performs CRUD operations against SharePoint/Office 365. Authentication relies on Microsoft Azure Active Directory.
+
+A presentation on all samples can be found in the [presentation folder](presentation) within this repository.
+
+![](/images/channel9scrnsht.png)
+
+An on-demand web cast recorded by Jeremy Thake can be found on [Channel 9](http://channel9.msdn.com/Blogs/Office-365-Dev/Getting-started-with-the-Expense-Tracker-AngularJS-Office-365-API-Code-Sample).
+
+This application is a stand-alone AngularJS application that performs CRUD operations against SharePoint/Office 365. Authentication relies on Windows Azure Active Directory (WAAD).
 This application demonstrates:
 
 * Consuming data provided by SharePoint/Office 365 RESTful APIs
-* Authentication against Microsoft Azure Active Directory 
+* Authentication against Windows Azure Active Directory (WAAD)
 * A custom "middle-man" proxy that allows cross-domain calls to be made to SharePoint/Office 365
 * A complete application with read-only and editable data
 * Using AngularJS with $http in a factory to access a backend RESTful service
@@ -17,6 +24,9 @@ This application demonstrates:
 * A custom directive that intercepts $http and jQuery XHR requests (in case either are used) and displays a loading dialog
 * A custom directive that handles highlighting menu items automatically based upon the path navigated to by the user
 * Form validation using AngularJS
+
+
+![](/images/screenshot.png)
 
 #Prerequisites
 
