@@ -1,7 +1,7 @@
 Expense Manager with AngularJS, SharePoint/Office 365 and Windows Azure Active Directory (WAAD)
 ===============
 
-If you’re new to AngularJS check out the [AngularJS in 60-ish Minutes](http://weblogs.asp.net/dwahlin/video-tutorial-angularjs-fundamentals-in-60-ish-minutes) video tutorial or download the [free eBook](http://weblogs.asp.net/dwahlin/angularjs-in-60-ish-minutes-the-ebook). Also check out [The AngularJS Magazine](http://flip.it/bdyUX) for up-to-date information on using AngularJS to build Single Page Applications (SPAs).
+If you're new to AngularJS check out the [AngularJS in 60-ish Minutes](http://weblogs.asp.net/dwahlin/video-tutorial-angularjs-fundamentals-in-60-ish-minutes) video tutorial or download the [free eBook](http://weblogs.asp.net/dwahlin/angularjs-in-60-ish-minutes-the-ebook). Also check out [The AngularJS Magazine](http://flip.it/bdyUX) for up-to-date information on using AngularJS to build Single Page Applications (SPAs).
 
 This application is a stand-alone AngularJS application that performs CRUD operations against SharePoint/Office 365. Authentication relies on Windows Azure Active Directory (WAAD).
 This application demonstrates:
@@ -26,7 +26,55 @@ This application demonstrates:
 
 #Office 365 and SharePoint Setup
 
-1. Upload the ExpensesTrackerSiteTemplate.wsp template into an existing Office 365/SharePoint site collection solution folder. Then create a Site instance within that site collection based on that site template called "Expense Tracker Site Template". This will create an Expenses site with 3 lists for employees, expenses, and states.
+Following are the steps to upload the ExpensesTrackerSiteTemplate.wsp template into an existing Office 365/SharePoint site collection solution folder. Then create a Site instance within that site collection based on that site template called "Expense Tracker Site Template". This will create an Expenses site with 3 lists for employees, expenses, and states.
+
+1. Go To the Admin Screen
+
+    ![Active Directory](ExpenseManager/Content/images/readmeImages/1-GoToAdminScreen.png)
+
+1. Create a new Site Collection
+
+    ![Active Directory](ExpenseManager/Content/images/readmeImages/2-CreateNewSiteCollection.png)
+
+1. Fill in New Site Collection Form, select template later under the custom tab for the template of the top level site.
+
+    ![Active Directory](ExpenseManager/Content/images/readmeImages/3-FillInSiteCollectionFormChooseTemplateLater.png)
+
+1. Click on the Solution Gallery Link.
+
+    ![Active Directory](ExpenseManager/Content/images/readmeImages/4-clickonsolutiongallery.png)
+
+1. Click the Upload Solution icon in the ribbon.
+
+    ![Active Directory](ExpenseManager/Content/images/readmeImages/5-clickUploadSolution.png)
+
+1. Browse to the .wsp file included in the package.  (in this case it is the expenses.wsp) and upload the solution.
+
+    ![Active Directory](ExpenseManager/Content/images/readmeImages/6-browsetosolutionfromgithubfolder.png)
+1. Activate the Solution.
+
+    ![Active Directory](ExpenseManager/Content/images/readmeImages/7-ActivateSolution.png)
+1. Click the Browse tab to get back to the home page.
+
+    ![Active Directory](ExpenseManager/Content/images/readmeImages/8-clickbrowse.png)
+
+1. Click the Custom tab.
+
+    ![Active Directory](ExpenseManager/Content/images/readmeImages/9-clickcustomtab.png)
+
+1. Select the Expenses (the one you uploaded and activated) solution and click OK.
+
+    ![Active Directory](ExpenseManager/Content/images/readmeImages/10-selectexpensesandclickok.png)
+
+1. Set the default SharePoint Security Groups.  Sometimes they line up perfectly, sometimes you might have to line them up with the drop down menu.
+
+    ![Active Directory](ExpenseManager/Content/images/readmeImages/11-setdefaultgroups.png)
+
+1. Browse to the Home Page.
+
+    ![Active Directory](ExpenseManager/Content/images/readmeImages/12-HomePageTopLevelSiteWithLists.png)
+
+1. If needed click on Site Contents to see the lists.
 
 
 #Azure and Application Setup
