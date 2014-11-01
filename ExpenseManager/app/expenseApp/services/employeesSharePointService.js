@@ -5,10 +5,11 @@
             refreshUrlBase = '/home/refreshtoken?returnUrl=',
             baseSPUrl = expenseManager.baseSPUrl,
             baseSPListsUrl = baseSPUrl + 'web/lists/';
-            factory = {
-                itemCount: 0,
-                expenses: null
-            };
+        factory = {
+            itemCount: 0,
+            expenses: null
+        },
+        requestDigest = null;
 
         factory.getEmployeesAndExpenses = function (pageIndex, pageSize) {
 
@@ -19,11 +20,13 @@
             //            });
 
             var deferred = $q.defer();
-            var empsPromise = $http.get(serviceBase + encodeURIComponent(baseSPListsUrl + "getByTitle('Employees')/items?$select=ID,FirstName,LastName&$orderby=LastName,FirstName"));
-            var expensesPromise = $http.get(serviceBase + encodeURIComponent(baseSPListsUrl + "getByTitle('Expenses')/items?$select=Amount,Created,ExpenseCategory,Title,Employee/Id&$expand=Employee/Id"));
+            var empsPromise = $http.get(serviceBase + encodeURIComponent(baseSPListsUrl +
+                "getByTitle('Employees')/items?$select=ID,FirstName,LastName&$orderby=LastName,FirstName"));
+            var expensesPromise = $http.get(serviceBase + encodeURIComponent(baseSPListsUrl +
+                "getByTitle('Expenses')/items?$select=Amount,Created,ExpenseCategory,Title,Employee/Id&$expand=Employee/Id"));
 
             //Currently the SharePoint REST API doesn't make grabbing the employees & expenses
-            //all at once (at least that we could get to work with $expand) so we're grabbing them individually
+            //all at once so we're grabbing them individually
             $q.all([empsPromise, expensesPromise])
               .then(function (results) {
                   var employees = (results[0].data.d) ? caseProps(results[0].data.d.results, propStyleEnum.camelCase) : []; //Get employees data
@@ -121,8 +124,7 @@
                 headers: {
                     'Accept': 'application/json;odata=verbose',
                     'Content-Type': 'application/json;odata=verbose',
-                    //Can get from getRequestDigest() but works without it
-                    //'X-RequestDigest': requestDigest.d.GetContextWebInformation.FormDigestValue,
+                    'X-RequestDigest': requestDigest
                 },
             };
 
@@ -144,29 +146,22 @@
         factory.updateEmployee = function (employee) {
 
             employee = caseProps(employee, propStyleEnum.pascalCase);
+            employee.Title = employee.FirstName + ' ' + employee.LastName;
             employee.Zip = employee.Zip.toString(); //Zip is a string in SharePoint
 
             var options = {
                 url: serviceBase + encodeURIComponent(employee.__metadata.uri),
-                method: 'PUT',
+                method: 'MERGE',
                 data: JSON.stringify(employee),
                 headers: {
                     'Accept': 'application/json;odata=verbose',
                     'Content-Type': 'application/json;odata=verbose',
-                    'X-HTTP-Method': 'MERGE',
-                    //Can get from getRequestDigest() but works without it
-                    //'X-RequestDigest': requestDigest.d.GetContextWebInformation.FormDigestValue,
-                    'If-Match': employee.__metadata.etag
-                },
+                    'If-Match': employee.__metadata.etag,
+                    'X-RequestDigest': requestDigest
+                }
             };
 
-            return $http(options).then(function (status) {
-                return status;
-            },
-            function (error) {
-                $window.alert(error.message);
-                return error;
-            });
+            return $http(options);
 
         };
 
@@ -177,9 +172,9 @@
                 method: 'DELETE',
                 headers: {
                     'Accept': 'application/json;odata=verbose',
-                    'X-HTTP-Method': 'DELETE',
-                    'If-Match': employee.__metadata.etag
-                },
+                    'If-Match': employee.__metadata.etag,
+                    'X-RequestDigest': requestDigest
+                }
             };
 
             return $http(options).then(function (status) {
@@ -191,20 +186,24 @@
             });
         };
         
-        factory.getRequestDigest = function () {
+        function getRequestDigest() {
 
-            var requestDigestOptions = {
+            var options = {
                 url: serviceBase + encodeURIComponent(baseSPUrl + 'contextinfo'),
                 method: 'POST',
                 headers: {
                     //Following will be set in HTTP Handler but listed here for completeness
-                    //'Accept': 'application/json;odata=verbose'
+                    'Accept': 'application/json;odata=verbose',
+                    'ContextInfoRequest': true
                 }
             };
 
-            return $http(requestDigestOptions);
+            $http(options).success(function (data) {
+                if (data && data.d) requestDigest = data.d.GetContextWebInformation.FormDigestValue;
+            });
+        }
 
-        };
+        getRequestDigest();
 
         function getRedirectUrl() {
             var port = ($location.port()) ? ':' + $location.port() : '';

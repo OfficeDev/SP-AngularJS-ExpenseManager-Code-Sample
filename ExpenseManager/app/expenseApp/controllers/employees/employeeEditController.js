@@ -13,8 +13,6 @@
         $scope.updateStatus = false;
         $scope.errorMessage = '';
 
-        init();
-
         $scope.isStateSelected = function (employeeStateId, stateId) {
             return employeeStateId === stateId;
         };
@@ -54,6 +52,9 @@
         };
 
         function init() {
+
+            getStates();
+
             if (employeeId > 0) {
                 dataService.getEmployee(employeeId).then(function (employee) {
                     $scope.employee = employee;
@@ -63,18 +64,19 @@
                     $scope.employee = employee;
                 });
 
-            }
-            getStates();
+            }            
 
             //Make sure they're warned if they made a change but didn't save it
             //Call to $on returns a "deregistration" function that can be called to
             //remove the listener (see routeChange() for an example of using it)
-            onRouteChangeOff = $rootScope.$on('$locationChangeStart', routeChange);
+            onRouteChangeOff = $scope.$on('$locationChangeStart', routeChange);
         }
+
+        init();
 
         function routeChange(event, newUrl) {
             //Navigate to newUrl if the form isn't dirty
-            if (!$scope.editForm.$dirty) return;
+            if (!$scope.editForm || !$scope.editForm.$dirty) return;
 
             var modalOptions = {
                 closeButtonText: 'Cancel',
@@ -86,7 +88,7 @@
             modalService.showModal({}, modalOptions).then(function (result) {
                 if (result === 'ok') {
                     onRouteChangeOff(); //Stop listening for location changes
-                    $location.path(newUrl); //Go to page they're interested in
+                    $location.path($location.url(newUrl).hash()); //Go to page they're interested in
                 }
             });
 

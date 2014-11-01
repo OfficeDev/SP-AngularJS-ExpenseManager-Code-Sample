@@ -17,7 +17,7 @@
                     </div>
                     <div class="col-md-10">
                         <input type="text" name="firstName" class="form-control" data-ng-model="employee.firstName" required />
-                        <span class="errorMessage" ng-show="editForm.firstName.$dirty && editForm.firstName.$invalid">
+                        <span class="errorMessage" ng-show="editForm.firstName.$touched && editForm.firstName.$invalid">
                             First name is required
                         </span>
                     </div>
@@ -29,7 +29,7 @@
                     </div>
                     <div class="col-md-10">
                         <input type="text" name="lastName" class="form-control" data-ng-model="employee.lastName" required />
-                        <span class="errorMessage" ng-show="editForm.lastName.$dirty && editForm.lastName.$invalid">
+                        <span class="errorMessage" ng-show="editForm.lastName.$touched && editForm.lastName.$invalid">
                             Last name is required
                         </span>
                     </div>
@@ -70,7 +70,7 @@
                                class="form-control"
                                data-ng-model="employee.email"
                                required />
-                        <span class="errorMessage" ng-show="editForm.email.$dirty && editForm.email.$error.unique">
+                        <span class="errorMessage" ng-show="editForm.email.$touched && editForm.email.$error.unique">
                             Email already in use
                         </span>
                     </div>
@@ -82,7 +82,7 @@
                     </div>
                     <div class="col-md-10">
                         <input type="text" name="address" class="form-control" data-ng-model="employee.address" required />
-                        <span class="errorMessage" ng-show="editForm.address.$dirty && editForm.address.$invalid">
+                        <span class="errorMessage" ng-show="editForm.address.$touched && editForm.address.$invalid">
                             Address is required
                         </span>
                     </div>
@@ -94,7 +94,7 @@
                     </div>
                     <div class="col-md-10">
                         <input type="text" name="city" class="form-control" data-ng-model="employee.city" required />
-                        <span class="errorMessage" ng-show="editForm.city.$dirty && editForm.city.$invalid">
+                        <span class="errorMessage" ng-show="editForm.city.$touched && editForm.city.$invalid">
                             City is required
                         </span>
                     </div>
@@ -110,7 +110,7 @@
                                 data-ng-options="s.title as s.title for s in states">
                             <option value=""></option>
                         </select>
-                        <span class="errorMessage" ng-show="editForm.state.$dirty && editForm.state.$invalid">
+                        <span class="errorMessage" ng-show="editForm.state.$touched && editForm.state.$invalid">
                             2 character state is required
                         </span>
                     </div>
@@ -122,7 +122,7 @@
                     </div>
                     <div class="col-md-10">
                         <input type="number" name="zip" class="form-control" data-ng-model="employee.zip" required />
-                        <span class="errorMessage" ng-show="editForm.zip.$dirty && editForm.zip.$invalid">
+                        <span class="errorMessage" ng-show="editForm.zip.$touched && editForm.zip.$invalid">
                             Zip is required
                         </span>
                     </div>
@@ -130,7 +130,8 @@
                 <br />
                 <div class="row">
                     <div class="col-md-12">
-                        <button type="submit" class="btn btn-primary" data-ng-click="saveEmployee()" ng-disabled="editForm.$invalid || !editForm.$dirty">{{buttonText}}</button>
+                        <button type="submit" class="btn btn-primary" data-ng-click="saveEmployee()" 
+                                ng-disabled="editForm.$invalid || !editForm.$dirty">{{buttonText}}</button>
                         &nbsp;&nbsp;
                         <button class="btn btn-danger" data-ng-if="employee.id > 0" data-ng-click="deleteEmployee()">Delete</button>
                     </div>

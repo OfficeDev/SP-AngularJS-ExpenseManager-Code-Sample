@@ -2,6 +2,7 @@
 using System;
 using System.Configuration;
 using System.Diagnostics;
+using System.IO;
 using System.Net;
 using System.Web;
 using System.Web.SessionState;
@@ -33,28 +34,41 @@ namespace ExpenseManager.Handlers
             }
             catch (Exception exp)
             {
-                Debug.WriteLine(exp.Message);
+                Debug.WriteLine("Error in WebProxy ProcessRequest: " + exp.Message);
             }
         }
 
         private HttpWebRequest CreateRequest(HttpContext context, string token)
         {
             var url = context.Server.UrlDecode(context.Request["url"]);
+            var contextInfoRequest = context.Request.Headers["ContextInfoRequest"];
+            var requestDigest = context.Request.Headers["X-RequestDigest"];
+            var ifMatch = context.Request.Headers["If-Match"];
             var restMethod = context.Request.HttpMethod.ToUpper();
-            var restTypes = new string[] { "PUT", "POST", "DELETE", "MERGE" };
+            var accept = context.Request.Headers["Accept"];
+            var xHttpMethod = context.Request.Headers["X-HTTP-Method"];
+            var contentTypeVerbs = new string[] { "PUT", "POST", "MERGE" };
+
+            Debug.WriteLine(url);
 
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.Accept = "application/json;odata=verbose";
-            request.Headers.Add("Authorization", "Bearer " + token);
             request.ContentType = "application/json;odata=verbose";
-            if (Array.IndexOf(restTypes, restMethod) >= 0) //See if it's a PUT/POST/DELETE/MERGE
+            request.Method = restMethod;
+            request.Headers.Add("Authorization", "Bearer " + token);
+
+            if (contextInfoRequest == "true") request.ContentLength = 0;
+            if (requestDigest != null) request.Headers.Add("X-RequestDigest", requestDigest);
+            if (ifMatch != null) request.Headers.Add("If-Match", ifMatch);
+            if (xHttpMethod != null) request.Headers.Add("X-HTTP-Method", xHttpMethod);
+
+            if (Array.IndexOf(contentTypeVerbs, restMethod) >= 0)
             {
-                CreatePost(context, restMethod, request);
+                var bodyStream = context.Request.GetBufferedInputStream();
+                var dataStream = request.GetRequestStream();
+                bodyStream.CopyTo(dataStream);
             }
-            else
-            {
-                request.Method = restMethod;
-            }
+
             return request;
         }
 
@@ -63,39 +77,16 @@ namespace ExpenseManager.Handlers
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
             using (var stream = response.GetResponseStream())
             {
-                context.Response.ContentType = "application/json";
-                stream.CopyTo(context.Response.OutputStream);
-                context.Response.Flush();
+                var ms = new MemoryStream();
+                stream.CopyTo(ms);
+                ms.Seek(0, SeekOrigin.Begin);
+                if (ms.Length > 0)
+                {
+                    context.Response.ContentType = "application/json";
+                    ms.CopyTo(context.Response.OutputStream);
+                    context.Response.Flush();
+                }
             }
-        }
-
-        private void CreatePost(HttpContext context, string restMethod, HttpWebRequest request)
-        {
-            request.Method = "POST";
-
-            if (!String.IsNullOrEmpty(context.Request.Headers["X-HTTP-Method"]))
-            {
-                request.Headers.Add("X-HTTP-Method", context.Request.Headers["X-HTTP-Method"]);
-            }
-            else
-            {
-                request.Headers.Add("X-HTTP-Method", restMethod); //Method RESTful service expects
-            }
-
-            //Handle eTag header if it's available
-            var eTag = (!String.IsNullOrEmpty(context.Request.Headers["If-Match"]))
-                        ? context.Request.Headers["If-Match"] : "*";
-            request.Headers.Add("If-Match", eTag);
-
-            if (!String.IsNullOrEmpty(context.Request.Headers["X-RequestDigest"]))
-            {
-                request.Headers.Add("X-RequestDigest", context.Request.Headers["X-RequestDigest"]);
-            }
-
-            //Get Body data sent to HTTP Handler and forward to target RESTful service
-            var bodyStream = context.Request.GetBufferedInputStream();
-            var dataStream = request.GetRequestStream();
-            bodyStream.CopyTo(dataStream);
         }
 
         public bool IsReusable

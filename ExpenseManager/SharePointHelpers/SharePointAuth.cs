@@ -39,6 +39,7 @@ namespace ExpenseManager.SharePointHelpers
         public static Func<Task<String>> GetAccessToken = async () =>
         {
             CapabilityDiscoveryResult dcr = await _discoveryContext.DiscoverCapabilityAsync("Contacts");
+ 
             UserIdentifier userId = new UserIdentifier(dcr.UserId, UserIdentifierType.UniqueId);
 
             string clientId = _discoveryContext.AppIdentity.ClientId;

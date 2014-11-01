@@ -33,7 +33,7 @@
             </div>
 
             <div class="row cardContainer show-hide-animation" data-ng-hide="listDisplayModeEnabled">
-                <div class="col-sm-6 col-md-3" data-ng-class="cardAnimationClass"
+                <div class="col-sm-6 col-md-4 col-lg-3" data-ng-class="cardAnimationClass"
                      data-ng-repeat="employee in pagedEmployees | orderBy:'lastName'">
                     <div class="card">
                         <button class="btn close cardClose" title="Delete Employee" data-ng-click="deleteEmployee(employee.id)">&times;</button>
@@ -41,7 +41,7 @@
                         <div class="cardBody">
                             <div class="clearfix">
                                 <div class="pull-left cardBodyLeft">
-                                    <a href="#/employeeedit/{{employee.id}}" class="white"><img data-ng-src="/Content/Images/{{employee.gender | lowercase}}.png" class="cardImage" /></a>
+                                    <a href="#/employeeedit/{{employee.id}}" class="white"><img data-ng-src="Content/Images/{{employee.gender | lowercase}}.png" class="cardImage" /></a>
                                 </div>
                                 <div class="pull-left cardBodyRight">
                                     <div class="cardBodyContent">{{employee.city}}, {{employee.state}}</div>
@@ -71,7 +71,7 @@
                             </thead>
                             <tbody>
                                 <tr data-ng-repeat="employee in pagedEmployees | orderBy:orderby:reverse" class="repeat-animation">
-                                    <td><a href="#/employeeEdit/{{employee.id}}"><img data-ng-src="/Content/Images/{{employee.gender | lowercase}}.png" class="cardImage" alt="Employee Image" /></a></td>
+                                    <td><a href="#/employeeEdit/{{employee.id}}"><img data-ng-src="Content/Images/{{employee.gender | lowercase}}.png" class="cardImage" alt="Employee Image" /></a></td>
                                     <td><a href="#/employeeEdit/{{employee.id}}">{{employee.firstName + ' ' + employee.lastName}}</a></td>
                                     <td>{{employee.city}}, {{employee.state}}</td>
                                     <td>
