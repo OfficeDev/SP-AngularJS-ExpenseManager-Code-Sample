@@ -1,48 +1,48 @@
 ﻿using ExpenseManager.SharePointHelpers;
-using Microsoft.Office365.OAuth;
+using ExpenseManager.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
 namespace ExpenseManager.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
-
+        [AllowAnonymous]
         public ActionResult Index()
         {
             ViewBag.Title = "Employee Expenses";
             return View();
         }
 
-        public async Task<ActionResult> Login()
+        //Will trigger AD authentication due to Authorize attribute on the controller
+        public ActionResult Login()
         {
-            try
-            {
-                var client = await SharePointAuth.EnsureClientCreated();
-                Response.Redirect("/index.html");
-                return View();
-            }
-            catch (RedirectRequiredException ex)
-            {
-                return Redirect(ex.RedirectUri.ToString());
-            }
-
+            return new RedirectResult("/index.html");
         }
 
+        public ActionResult RefreshToken(string returnUrl)
+        {
+            SharePointAuth.RefreshSession();
+            return new RedirectResult(Server.UrlDecode(returnUrl));
+        }
+
+        //Quick and dirty way to test that auth is working properly to AD and SharePoint
         public async Task<ActionResult> Title()
         {
-            ViewBag.Title = await SharePointAuth.GetSiteTitle();
-            return View();
-        }
-
-        public async Task<ActionResult> RefreshToken(string returnUrl)
-        {
-            await SharePointAuth.EnsureClientCreated();
-            Response.Redirect(Server.UrlDecode(returnUrl));
+            var token = await SharePointAuth.GetAccessToken(SettingsHelper.SharePointDomainUri);
+            WebClient wc = new WebClient();
+            wc.Headers.Add("Method", "GET");
+            wc.Headers.Add("Accept", "application/json;odata=verbose");
+            wc.Headers.Add("Authorization", "Bearer " + token);
+            var title = await wc.DownloadStringTaskAsync(SettingsHelper.SharePointApiServiceUri + "web/title");
+            ViewBag.Title = title;
             return View();
         }
     }

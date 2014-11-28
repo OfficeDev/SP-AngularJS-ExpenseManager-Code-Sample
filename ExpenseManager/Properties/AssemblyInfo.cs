@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("ExpenseManager")]
-[assembly: AssemblyCopyright("Copyright ©  2013 Dan Wahlin")]
+[assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("eebd9beb-e961-491f-a5e0-faa188f37e32")]
+[assembly: Guid("0196de6a-ce36-44d9-b302-7e9f81ca64ba")]
 
 // Version information for an assembly consists of the following four values:
 //

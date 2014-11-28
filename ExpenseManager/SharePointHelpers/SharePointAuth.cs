@@ -1,110 +1,100 @@
-﻿using Microsoft.Office365.OAuth;
-using Microsoft.Office365.SharePoint;
+﻿using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using Microsoft.Office365.Discovery;
+using Microsoft.Office365.SharePoint.CoreServices;
+using Microsoft.Owin.Security;
+using Microsoft.Owin.Security.Cookies;
+using Microsoft.Owin.Security.OpenIdConnect;
+using ExpenseManager.Utils;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
+using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Runtime.Caching;
 using System.Web;
-using System.Security.Principal;
-using System.Diagnostics;
-using System.Configuration;
-using Microsoft.IdentityModel.Clients.ActiveDirectory;
 
 namespace ExpenseManager.SharePointHelpers
 {
-    static class SharePointAuth
+    public static class SharePointAuth
     {
-        static string ServiceResourceId = ConfigurationManager.AppSettings["SharePointResourceId"];
-        static readonly Uri ServiceEndpointUri = new Uri(ConfigurationManager.AppSettings["SharePointServiceRoot"]);
+        private static DiscoveryClient _DiscoveryClient;
 
-        // Do not make static in Web apps; store it in session or in a cookie instead
-        public static string _lastLoggedInUser;
-        static DiscoveryContext _discoveryContext;
-
-        public static async Task<string> GetSiteTitle()
+        public static AuthenticationContext GetAuthContext()
         {
-            var client = await EnsureClientCreated();
-
-
-            WebClient wc = new WebClient();
-            wc.Headers.Add("Method", "GET");
-            wc.Headers.Add("Accept", "application/json;odata=verbose");
-            wc.Headers.Add("Authorization", "Bearer " + GetAccessToken);
-            return await wc.DownloadStringTaskAsync(ServiceEndpointUri + "/web/title");
+            var signInUserId = ClaimsPrincipal.Current.FindFirst(ClaimTypes.NameIdentifier).Value; 
+            //var tokenCache = new NaiveSessionCache(signInUserId);
+            var tokenCache = new EFADALTokenCache(signInUserId);
+            var authContext = new AuthenticationContext(SettingsHelper.AzureADAuthority, tokenCache);
+            return authContext;
         }
 
-        public static Func<Task<String>> GetAccessToken = async () =>
+        public static async Task<string> GetAccessToken(string resource)
         {
-            CapabilityDiscoveryResult dcr = await _discoveryContext.DiscoverCapabilityAsync("Contacts");
- 
-            UserIdentifier userId = new UserIdentifier(dcr.UserId, UserIdentifierType.UniqueId);
+            var userObjectId = ClaimsPrincipal.Current.FindFirst(SettingsHelper.ClaimsObjectIdentifier).Value;
+            var clientCredential = new ClientCredential(SettingsHelper.ClientId, SettingsHelper.ClientSecret);
+            var userIdentifier = new UserIdentifier(userObjectId, UserIdentifierType.UniqueId);
+            var authContext = GetAuthContext();
 
-            string clientId = _discoveryContext.AppIdentity.ClientId;
-
-            AuthenticationResult authResult = await _discoveryContext
-                      .AuthenticationContext
-                      .AcquireTokenSilentAsync(ServiceResourceId, clientId, userId);
-
+            var authResult = await authContext.AcquireTokenSilentAsync(resource, clientCredential, userIdentifier);
             return authResult.AccessToken;
-        };
-
-        public static async Task<SharePointClient> EnsureClientCreated()
-        {
-            if (_discoveryContext == null)
-            {
-                _discoveryContext = await DiscoveryContext.CreateAsync();
-            }
-
-            var dcr = await _discoveryContext.DiscoverResourceAsync(ServiceResourceId);
-
-            _lastLoggedInUser = dcr.UserId;
-
-            return new SharePointClient(ServiceEndpointUri, async () =>
-            {
-                return (await _discoveryContext.AuthenticationContext.AcquireTokenByRefreshTokenAsync(new SessionCache().Read("RefreshToken"), new Microsoft.IdentityModel.Clients.ActiveDirectory.ClientCredential(_discoveryContext.AppIdentity.ClientId, _discoveryContext.AppIdentity.ClientSecret), ServiceResourceId)).AccessToken;
-            });
         }
 
-        public static Uri SignOut(string postLogoutRedirect)
+        public static async Task<DiscoveryClient> GetDiscoveryClient(string capability)
         {
-            if (_discoveryContext == null)
-            {
-                _discoveryContext = new DiscoveryContext();
-            }
+            var userObjectId = ClaimsPrincipal.Current.FindFirst(SettingsHelper.ClaimsObjectIdentifier).Value;
+            var clientCredential = new ClientCredential(SettingsHelper.ClientId, SettingsHelper.ClientSecret);
+            var userIdentifier = new UserIdentifier(userObjectId, UserIdentifierType.UniqueId);
+            var authContext = GetAuthContext();
 
-            _discoveryContext.ClearCache();
-
-            return _discoveryContext.GetLogoutUri<SessionCache>(postLogoutRedirect);
-        }
-
-        public static string GetSessionToken()
-        {
-            var session = HttpContext.Current.Session;
-            if (session != null)
-            {
-                var startTokenKey = "_O365#AccessToken#";
-                var SharePointResourceId = ConfigurationManager.AppSettings["SharePointResourceId"];
-
-                var tokenKey = session.Keys
-                                .Cast<string>()
-                                .Where(k => k.Contains(startTokenKey))
-                                .SingleOrDefault();
-
-                if (tokenKey != null)
+            _DiscoveryClient = new DiscoveryClient(new Uri(SettingsHelper.O365DiscoveryServiceEndpoint),
+                async () =>
                 {
-                    var tokenObject = session[startTokenKey + SharePointResourceId];
-                    //Hack to get value since CacheItem type isn't accessible
-                    if (tokenObject != null)
-                    {
-                        var token = tokenObject.GetType().GetField("Value").GetValue(tokenObject).ToString();
-                        return token;
-                    }
-                }
+                    return await GetAccessToken(SettingsHelper.O365DiscoveryResourceId);
+                });
+
+            var dcr = await _DiscoveryClient.DiscoverCapabilityAsync(capability);
+
+            return _DiscoveryClient;
+        }
+
+        //public static async Task<SharePointClient> GetSharePointClient()
+        //{
+        //    if (_DiscoveryClient == null)
+        //    {
+        //        _DiscoveryClient = await GetDiscoveryClient();
+        //    }
+
+        //    return new SharePointClient(new Uri(SettingsHelper.SharePointApiServiceUri), async () =>
+        //    {
+        //        return await GetAccessToken(SettingsHelper.SharePointDomainUri);
+        //    });
+        //}
+
+        public static void SignIn()
+        {
+            if (!HttpContext.Current.Request.IsAuthenticated)
+            {
+                HttpContext.Current.GetOwinContext().Authentication.Challenge(
+                    new AuthenticationProperties { RedirectUri = "/" },
+                    OpenIdConnectAuthenticationDefaults.AuthenticationType);
             }
-            return null;
+        }
+
+        public static void Signout()
+        {
+            string usrObjectId = ClaimsPrincipal.Current.FindFirst(SettingsHelper.ClaimsObjectIdentifier).Value;
+            AuthenticationContext authContext = new AuthenticationContext(SettingsHelper.AzureADAuthority, new NaiveSessionCache(usrObjectId));
+            authContext.TokenCache.Clear();
+
+            HttpContext.Current.GetOwinContext().Authentication.SignOut(
+                OpenIdConnectAuthenticationDefaults.AuthenticationType, CookieAuthenticationDefaults.AuthenticationType);
+        }
+
+        public static void RefreshSession()
+        {
+            string strRedirectController = HttpContext.Current.Request.QueryString["redirect"];
+
+            HttpContext.Current.GetOwinContext().Authentication.Challenge(
+                new AuthenticationProperties { RedirectUri = String.Format("/{0}", strRedirectController) },
+                OpenIdConnectAuthenticationDefaults.AuthenticationType);
         }
     }
 }

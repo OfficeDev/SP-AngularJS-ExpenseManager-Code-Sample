@@ -1,1 +1,1 @@
-﻿<%@ Application Codebehind="Global.asax.cs" Inherits="ExpenseManager.Global" Language="C#" %>
+﻿<%@ Application Codebehind="Global.asax.cs" Inherits="ExpenseManager.MvcApplication" Language="C#" %>

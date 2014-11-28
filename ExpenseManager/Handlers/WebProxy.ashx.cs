@@ -1,23 +1,24 @@
 ﻿using ExpenseManager.SharePointHelpers;
+using ExpenseManager.Utils;
 using System;
 using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.SessionState;
 
 namespace ExpenseManager.Handlers
 {
-    public class WebProxy : IHttpHandler, IRequiresSessionState
+    public class WebProxy : HttpTaskAsyncHandler, IRequiresSessionState
     {
-
-        public void ProcessRequest(HttpContext context)
+        public override async Task ProcessRequestAsync(HttpContext context)
         {
             try
             {
                 //Get SharePoint Access Token
-                string token = SharePointAuth.GetSessionToken();
+                var token = await SharePointAuth.GetAccessToken(SettingsHelper.SharePointDomainUri);
 
                 if (!String.IsNullOrEmpty(token))
                 {
@@ -28,7 +29,7 @@ namespace ExpenseManager.Handlers
                 else
                 {
                     Debug.WriteLine("No bearer token found in WebProxy.ashx.cs");
-                    context.Response.StatusCode = (int)HttpStatusCode.Redirect;
+                    //context.Response.StatusCode = (int)HttpStatusCode.Redirect;
                     context.Response.End();
                 }
             }
@@ -93,5 +94,6 @@ namespace ExpenseManager.Handlers
         {
             get { return false; }
         }
+
     }
 }

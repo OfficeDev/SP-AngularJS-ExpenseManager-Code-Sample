@@ -7,6 +7,7 @@
             onRouteChangeOff;
 
         $scope.employee = {};
+        $scope.employee.id = employeeId;
         $scope.states = [];
         $scope.title = (employeeId > 0) ? 'Edit' : 'Add';
         $scope.buttonText = (employeeId > 0) ? 'Update' : 'Add';
@@ -59,12 +60,7 @@
                 dataService.getEmployee(employeeId).then(function (employee) {
                     $scope.employee = employee;
                 }, processError);
-            } else {
-                dataService.newEmployee().then(function (employee) {
-                    $scope.employee = employee;
-                });
-
-            }            
+            }          
 
             //Make sure they're warned if they made a change but didn't save it
             //Call to $on returns a "deregistration" function that can be called to

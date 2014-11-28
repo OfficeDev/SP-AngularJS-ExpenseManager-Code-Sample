@@ -6,15 +6,15 @@ If you're new to AngularJS check out the [AngularJS in 60-ish Minutes](http://we
 
 A presentation on all samples can be found in the [presentation folder](presentation) within this repository.
 
-![](/images/channel9scrnsht.png)
+![](ExpenseManager/Content/images/readmeImages/channel9scrnsht.png)
 
 An on-demand web cast recorded by Jeremy Thake can be found on [Channel 9](http://channel9.msdn.com/Blogs/Office-365-Dev/Getting-started-with-the-Expense-Tracker-AngularJS-Office-365-API-Code-Sample).
 
-This application is a stand-alone AngularJS application that performs CRUD operations against SharePoint/Office 365. Authentication relies on Windows Azure Active Directory (WAAD).
+This application is a stand-alone AngularJS application that performs CRUD operations against SharePoint/Office 365. Authentication relies on Microsoft Azure Active Directory.
 This application demonstrates:
 
 * Consuming data provided by SharePoint/Office 365 RESTful APIs
-* Authentication against Windows Azure Active Directory (WAAD)
+* Authentication against Microsoft Azure Active Directory 
 * A custom "middle-man" proxy that allows cross-domain calls to be made to SharePoint/Office 365
 * A complete application with read-only and editable data
 * Using AngularJS with $http in a factory to access a backend RESTful service
@@ -26,7 +26,7 @@ This application demonstrates:
 * Form validation using AngularJS
 
 
-![](/images/screenshot.png)
+![](ExpenseManager/Content/images/readmeImages/screenshot.png)
 
 #Prerequisites
 
@@ -119,16 +119,21 @@ To get the application running you'll need to do the following:
 
     ![Active Directory](ExpenseManager/Content/images/readmeImages/Permissions.png)
 
+1. Click the Select application drop and add the following permission for Microsoft Azure Active Directory (see the first entry in the image below):
+
+    ![Active Directory](ExpenseManager/Content/images/readmeImages/ADPermissions.png)
+
 1. Click the Save icon at the bottom of the interface.
 1. Open the Expense Manager's .sln file in Visual Studio 2013 or higher (click Download Zip in Github and extract the project if you haven't already)
-1. Open web.config and replace ClientID and Password values with the ClientID and Key displayed in the Azure Directory screen shown earlier:
+1. Open web.config and replace Tenant, TenantID, ClientID and Password values with the values displayed in the Azure Directory screen shown earlier:
 
 ```html
-    <add key="ida:ClientID" value="Your WAAD Application ClientID" />
-    <add key="ida:Password" value="Your WAAD Application Password" />
+    <add key="ida:Tenant" value="YOUR TENANT DOMAIN NAME (ex: acmecorp)" />
+    <add key="ida:TenantID" value="YOUR ACTIVE DIRECTORY TENANTID (a GUID)" />
+    <add key="ida:ClientID" value="YOUR ACTIVE DIRECTORY APP CLIENTID" />
+    <add key="ida:Password" value="YOUR ACTIVE DIRECTORY APP PASSWORD" />
 ```
 
-1. Locate the SharePointResourceId and SharePointServiceRoot keys in web.config and update YOUR_TENANT with your Office 365 tenant ID.
 1. Open index.html from the root of the project and scroll to the bottom.
 1. Locate the expenseManager.baseSPUrl variable and update YOUR_TENANT with your Office 365 tenant ID. 
 1. Press F5 to build and run the application. 
