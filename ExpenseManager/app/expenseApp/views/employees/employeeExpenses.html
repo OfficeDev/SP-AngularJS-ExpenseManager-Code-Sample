@@ -7,13 +7,13 @@
             <div class="row">
                 <div class="span12">
                     <div>
-                        <h4>Orders for <a href="#/employeeEdit/{{employee.id}}">{{ employee.firstName + ' ' + employee.lastName }} <i class="icon-edit editIcon"></i></a></h4>
-                        {{employee.address}}
+                        <h4>Expenses for <a href="#/employeeEdit/{{vm.employee.id}}">{{ vm.employee.firstName + ' ' + vm.employee.lastName }} <i class="icon-edit editIcon"></i></a></h4>
+                        {{vm.employee.address}}
                         <br />
-                        {{employee.city}}, {{employee.state}}
+                        {{vm.employee.city}}, {{vm.employee.state}}
                         <br /><br />
                     </div>
-                    <div data-ng-include="'/app/expenseApp/views/expenses/expensesTable.html'" />
+                    <div data-ng-include="'/app/expenseApp/views/expenses/expensesTable.html'" data-ng-controller="ExpenseChildController as vm" />
                 </div>                
             </div>
         </div>

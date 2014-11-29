@@ -9,26 +9,29 @@
         $routeProvider
             .when('/employees', {
                 controller: 'EmployeesController',
-                templateUrl: viewBase + 'employees/employees.html'
+                templateUrl: viewBase + 'employees/employees.html',
+                controllerAs: 'vm'
             })
             .when('/employeeExpenses/:employeeId', {
                 controller: 'EmployeeExpensesController',
-                templateUrl: viewBase + 'employees/employeeExpenses.html'
+                templateUrl: viewBase + 'employees/employeeExpenses.html',
+                controllerAs: 'vm'
             })
             .when('/employeeEdit/:employeeId', {
                 controller: 'EmployeeEditController',
-                templateUrl: viewBase + 'employees/employeeEdit.html'
+                templateUrl: viewBase + 'employees/employeeEdit.html',
+                controllerAs: 'vm'
             })
             .when('/expenses', {
                 controller: 'ExpensesController',
-                templateUrl: viewBase + 'expenses/expenses.html'
+                templateUrl: viewBase + 'expenses/expenses.html',
+                controllerAs: 'vm'
             })
             .when('/about', {
                 controller: 'AboutController',
                 templateUrl: viewBase + 'about.html'
             })
             .otherwise({ redirectTo: '/employees' });
-
     }]);
 
 }());

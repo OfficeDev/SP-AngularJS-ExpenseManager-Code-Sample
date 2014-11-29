@@ -1,11 +1,12 @@
 ﻿(function () {
 
     var EmployeeExpensesController = function ($scope, $routeParams, $window, dataService) {
+        var vm = this;
         //Grab employeeId off of the route        
         var employeeId = ($routeParams.employeeId) ? parseInt($routeParams.employeeId) : 0;
 
-        $scope.employee = {};
-        $scope.expensesTotal = 0.00;
+        vm.employee = {};
+        vm.expensesTotal = 0.00;
 
         init();
 
@@ -13,7 +14,8 @@
             if (employeeId > 0) {
                 dataService.getEmployeeExpenses(employeeId)
                 .then(function (employee) {
-                    $scope.employee = employee;
+                    vm.employee = employee;
+                    $scope.$broadcast('employee', employee);
                 }, function (error) {
                     $window.alert("Sorry, an error occurred: " + error.message);
                 });

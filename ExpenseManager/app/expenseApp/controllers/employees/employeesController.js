@@ -1,28 +1,29 @@
 ﻿(function () {
 
-    var EmployeesController = function ($scope, $location, $filter, $window, $timeout, dataService, modalService) {
+    var EmployeesController = function ($location, $filter, $window, $timeout, dataService, modalService) {
+        var vm = this;
 
-        $scope.employees = [];
-        $scope.filteredEmployees = [];
-        $scope.pagedEmployees = [];
-        $scope.filteredCount = 0;
-        $scope.orderby = 'lastName';
-        $scope.reverse = false;
-        $scope.searchText = null;
-        $scope.cardAnimationClass = 'card-animation';
+        vm.employees = [];
+        vm.filteredEmployees = [];
+        vm.pagedEmployees = [];
+        vm.filteredCount = 0;
+        vm.orderby = 'lastName';
+        vm.reverse = false;
+        vm.searchText = null;
+        vm.cardAnimationClass = 'card-animation';
 
         //paging
-        $scope.totalRecords = 0;
-        $scope.pageSize = 10;
-        $scope.currentPage = 1;
-        $scope.numRecordsDisplaying;
+        vm.totalRecords = 0;
+        vm.pageSize = 10;
+        vm.currentPage = 1;
+        vm.numRecordsDisplaying;
 
-        $scope.pageChanged = function (page) {
-            $scope.currentPage = page;
+        vm.pageChanged = function (page) {
+            vm.currentPage = page;
             pageRecords();
         };
 
-        $scope.deleteEmployee = function (id) {
+        vm.deleteEmployee = function (id) {
 
             var emp = getEmployeeById(id);
             var empName = emp.firstName + ' ' + emp.lastName;
@@ -37,13 +38,13 @@
             modalService.showModal({}, modalOptions).then(function (result) {
                 if (result === 'ok') {
                     dataService.deleteEmployee(emp).then(function () {
-                        for (var i = 0; i < $scope.employees.length; i++) {
-                            if ($scope.employees[i].id == id) {
-                                $scope.employees.splice(i, 1);
+                        for (var i = 0; i < vm.employees.length; i++) {
+                            if (vm.employees[i].id == id) {
+                                vm.employees.splice(i, 1);
                                 break;
                             }
                         }
-                        filterEmployees($scope.searchText);
+                        filterEmployees(vm.searchText);
                     }, function (error) {
                         $window.alert('Error deleting employee: ' + error.message);
                     });
@@ -51,34 +52,34 @@
             });
         };
 
-        $scope.DisplayModeEnum = {
+        vm.DisplayModeEnum = {
             Card: 0,
             List: 1
         };
 
-        $scope.changeDisplayMode = function (displayMode) {
+        vm.changeDisplayMode = function (displayMode) {
             switch (displayMode) {
-                case $scope.DisplayModeEnum.Card:
-                    $scope.listDisplayModeEnabled = false;
+                case vm.DisplayModeEnum.Card:
+                    vm.listDisplayModeEnabled = false;
                     break;
-                case $scope.DisplayModeEnum.List:
-                    $scope.listDisplayModeEnabled = true;
+                case vm.DisplayModeEnum.List:
+                    vm.listDisplayModeEnabled = true;
                     break;
             }
         };
 
-        $scope.navigate = function (url) {
+        vm.navigate = function (url) {
             $location.path(url);
         };
 
-        $scope.setOrder = function (orderby) {
-            if (orderby === $scope.orderby) {
-                $scope.reverse = !$scope.reverse;
+        vm.setOrder = function (orderby) {
+            if (orderby === vm.orderby) {
+                vm.reverse = !vm.reverse;
             }
-            $scope.orderby = orderby;
+            vm.orderby = orderby;
         };
 
-        $scope.searchTextChanged = function () {
+        vm.searchTextChanged = function () {
             filterEmployees();
         };
 
@@ -87,14 +88,14 @@
         }
 
         function getEmployeesSummary() {
-            dataService.getEmployeesSummary($scope.currentPage - 1, $scope.pageSize)
+            dataService.getEmployeesSummary(vm.currentPage - 1, vm.pageSize)
             .then(function (data) {
-                $scope.totalRecords = data.totalRecords;
-                $scope.employees = data.results;
+                vm.totalRecords = data.totalRecords;
+                vm.employees = data.results;
                 filterEmployees(''); //Trigger initial filter
 
                 $timeout(function() {
-                    $scope.cardAnimationClass = ''; //Turn off animation
+                    vm.cardAnimationClass = ''; //Turn off animation
                 }, 1000);
 
             }, function (error) {
@@ -103,43 +104,43 @@
         }
 
         function filterEmployees() {
-            $scope.filteredEmployees = $filter("nameCityStateFilter")($scope.employees, $scope.searchText);
-            $scope.filteredCount = $scope.filteredEmployees.length;
+            vm.filteredEmployees = $filter("nameCityStateFilter")(vm.employees, vm.searchText);
+            vm.filteredCount = vm.filteredEmployees.length;
 
             //Factor in paging
-            $scope.currentPage = 1;
-            $scope.totalRecords = $scope.filteredCount;
+            vm.currentPage = 1;
+            vm.totalRecords = vm.filteredCount;
             pageRecords();
         }
 
         function pageRecords() {
-            var useFiltered = $scope.searchText && $scope.searchText.length > 0,
-                pageStart = ($scope.currentPage - 1) * $scope.pageSize,
-                pageEnd = pageStart + $scope.pageSize;
+            var useFiltered = vm.searchText && vm.searchText.length > 0,
+                pageStart = (vm.currentPage - 1) * vm.pageSize,
+                pageEnd = pageStart + vm.pageSize;
 
             if (useFiltered) {
-                if (pageEnd > $scope.filteredCount) pageEnd = $scope.filteredCount;                
+                if (pageEnd > vm.filteredCount) pageEnd = vm.filteredCount;                
             }
             else {
-                if (pageEnd > $scope.employees.length) pageEnd = $scope.employees.length;
-                $scope.totalRecords = $scope.employees.length;
+                if (pageEnd > vm.employees.length) pageEnd = vm.employees.length;
+                vm.totalRecords = vm.employees.length;
             }
 
-            $scope.pagedEmployees = (useFiltered) ? $scope.filteredEmployees.slice(pageStart, pageEnd) : $scope.employees.slice(pageStart, pageEnd);
-            $scope.numRecordsDisplaying = $scope.pagedEmployees.length;
-            $scope.pagingInfo = {
-                currentPage: $scope.currentPage,
-                totalRecords: $scope.totalRecords,
+            vm.pagedEmployees = (useFiltered) ? vm.filteredEmployees.slice(pageStart, pageEnd) : vm.employees.slice(pageStart, pageEnd);
+            vm.numRecordsDisplaying = vm.pagedEmployees.length;
+            vm.pagingInfo = {
+                currentPage: vm.currentPage,
+                totalRecords: vm.totalRecords,
                 pageStart: pageStart,
                 pageEnd: pageEnd,
-                pagedEmployeeLength: $scope.pagedEmployees.length,
-                numRecordsDisplaying: $scope.numRecordsDisplaying
+                pagedEmployeeLength: vm.pagedEmployees.length,
+                numRecordsDisplaying: vm.numRecordsDisplaying
             };
         }
 
         function getEmployeeById(id) {
-            for (var i = 0; i < $scope.employees.length; i++) {
-                var emp = $scope.employees[i];
+            for (var i = 0; i < vm.employees.length; i++) {
+                var emp = vm.employees[i];
                 if (emp.id === id) {
                     return emp;
                 }
@@ -150,7 +151,7 @@
         init();
     };
 
-    EmployeesController.$inject = ['$scope', '$location', '$filter', '$window', '$timeout', 'dataService', 'modalService'];
+    EmployeesController.$inject = ['$location', '$filter', '$window', '$timeout', 'dataService', 'modalService'];
 
     angular.module('expenseApp').controller('EmployeesController', EmployeesController);
 

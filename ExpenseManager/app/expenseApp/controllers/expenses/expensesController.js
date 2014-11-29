@@ -1,25 +1,27 @@
 ﻿(function () {
 
-    var ExpensesController = function ($scope, $filter, $window, dataService) {
-        $scope.employees = [];
-        $scope.filteredEmployees = [];
-        $scope.pagedEmployees = [];
-        $scope.filteredCount = 0;
-        $scope.searchText = null;
+    var ExpensesController = function ($filter, $window, dataService) {
+        var vm = this;
+
+        vm.employees = [];
+        vm.filteredEmployees = [];
+        vm.pagedEmployees = [];
+        vm.filteredCount = 0;
+        vm.searchText = null;
 
         //paging
-        $scope.totalRecords = 0;
-        $scope.pageSize = 5;
-        $scope.currentPage = 1;
-        $scope.numRecordsDisplaying;
+        vm.totalRecords = 0;
+        vm.pageSize = 5;
+        vm.currentPage = 1;
+        vm.numRecordsDisplaying;
 
-        $scope.pageChanged = function (page) {
-            $scope.currentPage = page;
+        vm.pageChanged = function (page) {
+            vm.currentPage = page;
             pageRecords();
         };
 
-        $scope.searchTextChanged = function () {
-            filterEmployeesExpenses($scope.searchText);
+        vm.searchTextChanged = function () {
+            filterEmployeesExpenses(vm.searchText);
         };
 
         function init() {
@@ -27,37 +29,37 @@
         }
 
         function filterEmployeesExpenses(filterText) {
-            $scope.filteredEmployees = $filter("nameExpenseFilter")($scope.employees, filterText);
-            $scope.filteredCount = $scope.filteredEmployees.length;
+            vm.filteredEmployees = $filter("nameExpenseFilter")(vm.employees, filterText);
+            vm.filteredCount = vm.filteredEmployees.length;
 
             //Factor in paging
-            $scope.currentPage = 1;
-            $scope.totalRecords = $scope.filteredCount;
+            vm.currentPage = 1;
+            vm.totalRecords = vm.filteredCount;
             pageRecords();
         }
 
         function pageRecords() {
-            var useFiltered = $scope.searchText && $scope.searchText.length > 0,
-                pageStart = ($scope.currentPage - 1) * $scope.pageSize,
-                pageEnd = pageStart + $scope.pageSize;
+            var useFiltered = vm.searchText && vm.searchText.length > 0,
+                pageStart = (vm.currentPage - 1) * vm.pageSize,
+                pageEnd = pageStart + vm.pageSize;
 
             if (useFiltered) {
-                if (pageEnd > $scope.filteredCount) pageEnd = $scope.filteredCount;
+                if (pageEnd > vm.filteredCount) pageEnd = vm.filteredCount;
             }
             else {
-                if (pageEnd > $scope.employees.length) pageEnd = $scope.employees.length;
-                $scope.totalRecords = $scope.employees.length;
+                if (pageEnd > vm.employees.length) pageEnd = vm.employees.length;
+                vm.totalRecords = vm.employees.length;
             }
 
-            $scope.pagedEmployees = (useFiltered) ? $scope.filteredEmployees.slice(pageStart, pageEnd) : $scope.employees.slice(pageStart, pageEnd);
-            $scope.numRecordsDisplaying = $scope.pagedEmployees.length;
+            vm.pagedEmployees = (useFiltered) ? vm.filteredEmployees.slice(pageStart, pageEnd) : vm.employees.slice(pageStart, pageEnd);
+            vm.numRecordsDisplaying = vm.pagedEmployees.length;
         }
 
         function getEmployeesAndExpenses() {
             dataService.getEmployeesAndExpenses()
                 .then(function (employees) {
-                        $scope.totalRecords = employees.length;
-                        $scope.employees = employees;
+                        vm.totalRecords = employees.length;
+                        vm.employees = employees;
                         filterEmployeesExpenses('');
                    }, function (error) {
                         $window.alert(error.message);
@@ -68,7 +70,7 @@
 
     };
 
-    ExpensesController.$inject = ['$scope', '$filter', '$window', 'dataService'];
+    ExpensesController.$inject = ['$filter', '$window', 'dataService'];
 
     angular.module('expenseApp').controller('ExpensesController', ExpensesController);
 
