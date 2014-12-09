@@ -1,8 +1,9 @@
 ﻿(function () {
 
-    var NavbarController = function ($scope) {
-        $scope.isCollapsed = false;
-        $scope.appTitle = 'Expense Management';
+    var NavbarController = function () {
+        var vm = this;
+        vm.isCollapsed = false;
+        vm.appTitle = 'Expense Management';
     };
 
     NavbarController.$inject = ['$scope'];

@@ -123,8 +123,8 @@
                 data: JSON.stringify(employee),
                 headers: {
                     'Accept': 'application/json;odata=verbose',
-                    'Content-Type': 'application/json;odata=verbose',
-                    'X-RequestDigest': requestDigest
+                    'Content-Type': 'application/json;odata=verbose'
+                    //'X-RequestDigest': requestDigest
                 },
             };
 
@@ -156,8 +156,8 @@
                 headers: {
                     'Accept': 'application/json;odata=verbose',
                     'Content-Type': 'application/json;odata=verbose',
-                    'If-Match': employee.__metadata.etag,
-                    'X-RequestDigest': requestDigest
+                    'If-Match': employee.__metadata.etag
+                    //'X-RequestDigest': requestDigest
                 }
             };
 
@@ -172,8 +172,8 @@
                 method: 'DELETE',
                 headers: {
                     'Accept': 'application/json;odata=verbose',
-                    'If-Match': employee.__metadata.etag,
-                    'X-RequestDigest': requestDigest
+                    'If-Match': employee.__metadata.etag
+                    //'X-RequestDigest': requestDigest
                 }
             };
 
@@ -203,7 +203,7 @@
             });
         }
 
-        getRequestDigest();
+        //getRequestDigest();
 
         function getRedirectUrl() {
             var port = ($location.port()) ? ':' + $location.port() : '';

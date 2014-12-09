@@ -3,6 +3,7 @@
     var ExpenseChildController = function ($scope) {
         var vm = this;
 
+        vm.employee = null;
         vm.orderby = 'product';
         vm.reverse = false;
         vm.expensesTotal = 0.00;
