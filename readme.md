@@ -6,7 +6,7 @@ If you're new to AngularJS check out the [AngularJS in 60-ish Minutes](http://we
 
 A presentation on all samples can be found in the [presentation folder](presentation) within this repository.
 
-![](ExpenseManager/Content/images/readmeImages/channel9scrnsht.png)
+![PowerPoint slide titled Expenses Manager Code Sample with AngularJS and Office 365 APIs by Jeremy Thake Technical Product Manager Microsoft Corporation](ExpenseManager/Content/images/readmeImages/channel9scrnsht.png)
 
 An on-demand web cast recorded by Jeremy Thake can be found on [Channel 9](http://channel9.msdn.com/Blogs/Office-365-Dev/Getting-started-with-the-Expense-Tracker-AngularJS-Office-365-API-Code-Sample).
 
@@ -26,7 +26,7 @@ This application demonstrates:
 * Form validation using AngularJS
 
 
-![](ExpenseManager/Content/images/readmeImages/screenshot.png)
+![Application page for Expense Management employees list view](ExpenseManager/Content/images/readmeImages/screenshot.png)
 
 #Prerequisites
 
