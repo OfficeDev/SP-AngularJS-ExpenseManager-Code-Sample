@@ -28,13 +28,13 @@ This application demonstrates:
 
 ![Application page for Expense Management employees list view](ExpenseManager/Content/images/readmeImages/screenshot.png)
 
-#Prerequisites
+# Prerequisites
 
 * Azure subscription (trial will work)
 * Office 365 tenant
 * SharePoint site collection in your Office 365 tenant
 
-#Office 365 and SharePoint Setup
+# Office 365 and SharePoint Setup
 
 Following are the steps to upload the ExpensesTrackerSiteTemplate.wsp template into an existing Office 365/SharePoint site collection solution folder. Then create a Site instance within that site collection based on that site template called "Expense Tracker Site Template". This will create an Expenses site with 3 lists for employees, expenses, and states.
 
@@ -87,7 +87,7 @@ Following are the steps to upload the ExpensesTrackerSiteTemplate.wsp template i
 1. If needed click on Site Contents to see the lists.
 
 
-#Azure and Application Setup
+# Azure and Application Setup
 To get the application running you'll need to do the following:
 
 1. Login to your Azure Management Portal and select Active Directory from the left menu.
