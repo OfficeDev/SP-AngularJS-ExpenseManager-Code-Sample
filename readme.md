@@ -1,3 +1,16 @@
+---
+topic: sample
+products:
+- SharePoint
+- Office 365
+languages:
+- JavaScript
+extensions:
+  contentType: samples
+  technologies:
+  - Azure AD
+  createdDate: 6/19/2014 8:30:16 AM
+---
 Expense Manager with AngularJS, SharePoint/Office 365 and Microsoft Azure Active Directory
 ===============
 
