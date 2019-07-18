@@ -1,10 +1,10 @@
 ---
 topic: sample
 products:
-- SharePoint
-- Office 365
+- office-sp
+- office-365
 languages:
-- JavaScript
+- javascript
 extensions:
   contentType: samples
   technologies:
