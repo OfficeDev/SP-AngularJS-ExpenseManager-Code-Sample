@@ -18,7 +18,6 @@ extensions:
 
 If you're new to AngularJS check out the [AngularJS in 60-ish Minutes](http://weblogs.asp.net/dwahlin/video-tutorial-angularjs-fundamentals-in-60-ish-minutes) video tutorial or download the [free eBook](http://weblogs.asp.net/dwahlin/angularjs-in-60-ish-minutes-the-ebook). Also check out [The AngularJS Magazine](http://flip.it/bdyUX) for up-to-date information on using AngularJS to build Single Page Applications (SPAs).
 
-
 A presentation on all samples can be found in the [presentation folder](presentation) within this repository.
 
 ![PowerPoint slide titled Expenses Manager Code Sample with AngularJS and Office 365 APIs by Jeremy Thake Technical Product Manager Microsoft Corporation](ExpenseManager/Content/images/readmeImages/channel9scrnsht.png)
