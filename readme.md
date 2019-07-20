@@ -1,18 +1,20 @@
 ---
-topic: sample
+page_type: sample
 products:
 - office-sp
 - office-365
 languages:
 - javascript
+urlFragment: expense-manager-angular
+description: "This application is a stand-alone AngularJS application that performs CRUD operations against SharePoint/Office 365."
 extensions:
   contentType: samples
   technologies:
   - Azure AD
   createdDate: 6/19/2014 8:30:16 AM
 ---
-Expense Manager with AngularJS, SharePoint/Office 365 and Microsoft Azure Active Directory
-===============
+
+# Expense Manager with AngularJS, SharePoint/Office 365 and Microsoft Azure Active Directory
 
 If you're new to AngularJS check out the [AngularJS in 60-ish Minutes](http://weblogs.asp.net/dwahlin/video-tutorial-angularjs-fundamentals-in-60-ish-minutes) video tutorial or download the [free eBook](http://weblogs.asp.net/dwahlin/angularjs-in-60-ish-minutes-the-ebook). Also check out [The AngularJS Magazine](http://flip.it/bdyUX) for up-to-date information on using AngularJS to build Single Page Applications (SPAs).
 
